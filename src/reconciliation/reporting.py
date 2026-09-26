@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+
 from .domain import DifferenceVisitor, MissingRecord, RecordMismatch
 
 
@@ -15,7 +16,9 @@ class SummaryVisitor(DifferenceVisitor[None]):
     def visit_mismatch(self, difference: RecordMismatch) -> None:
         self._increment(difference.reason)
 
-    def summarize(self, differences: list[MissingRecord | RecordMismatch]) -> dict[str, int]:
+    def summarize(
+        self, differences: list[MissingRecord | RecordMismatch]
+    ) -> dict[str, int]:
         for difference in differences:
             difference.accept(self)
         return dict(sorted(self.counts.items()))

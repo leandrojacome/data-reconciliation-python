@@ -19,6 +19,7 @@ class DifferenceVisitor(Protocol[T]):
 
 class Difference(Protocol):
     external_id: str
+
     def accept(self, visitor: DifferenceVisitor[T]) -> T: ...
 
 

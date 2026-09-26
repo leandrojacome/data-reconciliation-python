@@ -1,13 +1,13 @@
-# ADR-001: Decimal e política explícita
+# ADR-001: Decimal values and explicit matching policy
 
 ## Status
 
-Aceito.
+Accepted for the portfolio scope.
 
-## Decisão
+## Decision
 
-Representar valores com `Decimal` e encapsular tolerância em uma Strategy.
+Represent monetary values with `Decimal` and encapsulate tolerance in a Strategy.
 
-## Consequências
+## Consequences
 
-Evita erros binários de ponto flutuante e torna a regra auditável. Cada moeda ainda pode exigir escala e arredondamento próprios em evolução futura.
+This avoids binary floating-point errors and makes the rule auditable. Each currency may still require its own scale and rounding policy in a future evolution.

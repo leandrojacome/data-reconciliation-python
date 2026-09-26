@@ -1,4 +1,6 @@
-from typing import Iterable, Protocol
+from collections.abc import Iterable
+from typing import Protocol
+
 from .domain import Record
 
 

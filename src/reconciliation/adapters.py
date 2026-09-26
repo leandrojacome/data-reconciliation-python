@@ -1,7 +1,8 @@
 import csv
+from collections.abc import Iterable
 from decimal import Decimal
 from pathlib import Path
-from typing import Iterable
+
 from .domain import Record
 
 
@@ -12,7 +13,9 @@ class CsvRecordSource:
     def records(self) -> Iterable[Record]:
         with self._path.open(newline="", encoding="utf-8") as stream:
             for row in csv.DictReader(stream):
-                yield Record(row["external_id"], Decimal(row["amount"]), row["currency"])
+                yield Record(
+                    row["external_id"], Decimal(row["amount"]), row["currency"]
+                )
 
 
 class InMemoryRecordSource:

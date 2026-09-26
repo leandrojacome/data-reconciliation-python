@@ -6,7 +6,9 @@ class ReconcileRecords:
     def __init__(self, policy: MatchingPolicy) -> None:
         self._policy = policy
 
-    def execute(self, left_source: RecordSource, right_source: RecordSource) -> list[Difference]:
+    def execute(
+        self, left_source: RecordSource, right_source: RecordSource
+    ) -> list[Difference]:
         left = {record.external_id: record for record in left_source.records()}
         right = {record.external_id: record for record in right_source.records()}
         differences: list[Difference] = []

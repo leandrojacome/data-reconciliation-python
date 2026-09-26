@@ -1,33 +1,30 @@
-# Data Reconciliation — Python
+# Explainable Data Reconciliation
 
-Motor explicável para reconciliar registros de duas fontes e classificar ausências ou divergências. É útil em migrações, integrações financeiras e validação de pipelines.
+An explainable engine that reconciles records from two sources and classifies missing records and mismatches. It is useful for migrations, financial integrations, and data-pipeline validation.
 
-## Arquitetura e padrões
+## Architecture and patterns
 
-- **Strategy (GoF):** políticas exata e por tolerância variam sem alterar o caso de uso.
-- **Adapter:** CSV e memória implementam a mesma porta de entrada.
-- **Visitor (GoF):** divergências tipadas geram resumo sem condicionais ou lógica de apresentação nas entidades.
-- **SOLID/Clean Architecture:** domínio e aplicação não dependem de arquivo, framework ou banco.
-- **DDD proporcional:** bounded context de Reconciliação, linguagem ubíqua e divergências tipadas preservam significado de domínio.
+- **Strategy:** exact and tolerance-based policies vary without changing the use case.
+- **Adapter:** CSV and memory implement the same input port.
+- **Visitor:** typed discrepancies produce summaries without presentation conditionals inside entities.
+- **SOLID/Clean Architecture:** domain and application do not depend on files, frameworks, or databases.
+- **Pragmatic DDD:** the Record Reconciliation bounded context uses explicit language and typed discrepancies to preserve domain meaning.
 
-## Executar
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e . pytest
+python -m pip install -e '.[dev]'
 pytest
-pip-audit
 ```
 
-Veja [Arquitetura](docs/architecture.md) e [ADR-001](docs/adr/001-decimal-and-policy.md).
+See [Architecture](docs/architecture.md) and [ADR-001](docs/adr/001-decimal-and-policy.md).
 
 ## Trade-offs
 
-A indexação em memória oferece implementação clara e O(n), mas não é adequada a datasets maiores que a memória disponível. Um adaptador de produção pode executar merge-sort por streaming ou delegar o join ao banco.
+In-memory indexing keeps the implementation clear and O(n), but it is unsuitable for datasets larger than available memory. A production adapter could perform a streaming merge-sort or delegate the join to a database.
 
-Visitor foi escolhido porque novas projeções (resumo, auditoria, alertas) são mais prováveis que novos tipos de divergência. `isinstance` e dicionários genéricos foram descartados por perder tipagem e espalhar decisões.
+Visitor fits because new projections such as summaries, audit exports, and alerts are more likely than new discrepancy types. Scattered `isinstance` checks and generic dictionaries were rejected because they lose type information and distribute decisions.
 
-## Licença
+## License
 
-MIT.
+MIT

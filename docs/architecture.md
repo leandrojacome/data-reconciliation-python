@@ -1,19 +1,19 @@
-# Arquitetura
+# Architecture
 
-## Contexto e linguagem
+## Domain model
 
-Bounded context **Reconciliação de Registros**. `Record` representa o registro canônico; `Decimal` e moeda compõem o valor monetário. `MissingRecord` e `RecordMismatch` são divergências de domínio com invariantes estruturais distintas.
+The **Record Reconciliation** bounded context models `Record` as the canonical record. `Decimal` and currency compose the monetary value. `MissingRecord` and `RecordMismatch` are domain discrepancies with distinct structural invariants.
 
-## Fronteiras
+## Layers
 
-- **Domínio:** registros, divergências e contrato do Visitor.
-- **Aplicação:** `ReconcileRecords` coordena fontes e política de matching.
-- **Infraestrutura:** adaptadores CSV/memória e projeções de relatório.
+- **Domain:** records, discrepancies, and the Visitor contract.
+- **Application:** `ReconcileRecords` coordinates sources and matching policy.
+- **Infrastructure:** CSV/in-memory adapters and report projections.
 
-## Padrões e alternativas
+## Patterns and alternatives
 
-- **Strategy:** `MatchingPolicy` varia tolerância sem condicionais no caso de uso. Uma flag `tolerant=True` foi descartada por esconder regras monetárias.
-- **Adapter:** CSV é detalhe substituível; parsing dentro do caso de uso foi descartado.
-- **Visitor:** cada divergência aceita projeções independentes como `SummaryVisitor`. `isinstance` espalhado em relatórios foi descartado porque duplicaria dispatch e violaria aberto/fechado ao adicionar projeções.
+- **Strategy:** `MatchingPolicy` varies tolerance without conditionals in the use case. A `tolerant=True` flag was rejected because it hides monetary rules.
+- **Adapter:** CSV remains replaceable. Parsing inside the use case was rejected.
+- **Visitor:** each discrepancy accepts independent projections such as `SummaryVisitor`. Scattered `isinstance` checks were rejected because they duplicate dispatch and violate Open/Closed when projections are added.
 
-O Visitor é apropriado porque o conjunto de divergências é pequeno/estável e as operações de saída tendem a crescer. Se os tipos variassem mais que as projeções, pattern matching seria mais simples.
+Visitor is appropriate because discrepancy types are few and stable while output operations are expected to grow. If types changed more often than projections, pattern matching would be simpler.
