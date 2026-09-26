@@ -1,4 +1,4 @@
-from .domain import Difference
+from .domain import Difference, MissingRecord, RecordMismatch
 from .ports import MatchingPolicy, RecordSource
 
 
@@ -12,9 +12,9 @@ class ReconcileRecords:
         differences: list[Difference] = []
         for key in sorted(left.keys() | right.keys()):
             if key not in left:
-                differences.append(Difference(key, "missing_left", None, right[key]))
+                differences.append(MissingRecord(key, "left", right[key]))
             elif key not in right:
-                differences.append(Difference(key, "missing_right", left[key], None))
+                differences.append(MissingRecord(key, "right", left[key]))
             elif reason := self._policy.mismatch_reason(left[key], right[key]):
-                differences.append(Difference(key, reason, left[key], right[key]))
+                differences.append(RecordMismatch(key, reason, left[key], right[key]))
         return differences
